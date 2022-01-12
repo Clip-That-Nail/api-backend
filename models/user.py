@@ -20,6 +20,7 @@ class UserModel(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False)
 
     pets = db.relationship('PetModel', backref='user', lazy=True)
+    sessions = db.relationship('SessionModel', backref='user', lazy=True)
 
     def __init__(self, group_id: int, first_name: str, last_name: str, email: str, password: str, must_change_password: bool, status: int, created_at: str, updated_at: str):
         self.group_id = group_id
