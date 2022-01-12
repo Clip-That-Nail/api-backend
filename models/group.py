@@ -30,6 +30,10 @@ class GroupModel(db.Model):
     @classmethod
     def find_by_id(cls, _id: int) -> "GroupModel":
         return cls.query.filter_by(id=_id).first()
+        
+    @classmethod
+    def find_all(cls) -> "GroupModel":
+        return cls.query.all()
 
     def save_to_db(self) -> None:
         db.session.add(self)
