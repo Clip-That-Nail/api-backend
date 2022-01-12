@@ -50,7 +50,7 @@ class PetModel(db.Model):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def find_by_id(cls, _id: str) -> "PetModel":
+    def find_by_id(cls, _id: int) -> "PetModel":
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
@@ -58,7 +58,7 @@ class PetModel(db.Model):
         return cls.query.all()
 
     @classmethod
-    def find_all_by_user_id(cls, user_id: str) -> List["PetModel"]:
+    def find_all_by_user_id(cls, user_id: int) -> List["PetModel"]:
         return cls.query.filter_by(user_id=user_id).all()
 
     def save_to_db(self) -> None:
