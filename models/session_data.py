@@ -10,7 +10,7 @@ class SessionDataModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column(db.Integer, db.ForeignKey(
-        "session.id"), nullable=False)
+        "sessions.id"), nullable=False)
     paw = db.Column(db.String(80), nullable=False)
     claw = db.Column(db.String(80), nullable=False)
     status = db.Column(db.String(80), nullable=False)

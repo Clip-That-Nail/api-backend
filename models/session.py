@@ -9,8 +9,8 @@ class SessionModel(db.Model):
     __tablename__ = "sessions"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    pet_id = db.Column(db.Integer, db.ForeignKey("pet.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    pet_id = db.Column(db.Integer, db.ForeignKey("pets.id"), nullable=False)
     status = db.Column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)

@@ -9,7 +9,7 @@ class ClawModel(db.Model):
     __tablename__ = "claws"
 
     id = db.Column(db.Integer, primary_key=True)
-    pet_id = db.Column(db.Integer, db.ForeignKey("pet.id"), nullable=False)
+    pet_id = db.Column(db.Integer, db.ForeignKey("pets.id"), nullable=False)
     name = db.Column(db.String(80), nullable=False)
     paw = db.Column(db.String(80), nullable=False)
     disabled = db.Column(db.Boolean, default=False, nullable=False)
