@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager
 
 from db import db
 # from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
-from resources.group import Group, GroupList
+from resources.group import Group, GroupCreate, GroupList
 
 
 # TODO: resources - user (UserRegister, UserLogin, User, TokenRefresh, UserLogout, ForgotPassword, UpdatePassword),
@@ -42,6 +42,7 @@ def api_homepage():
 
 
 api.add_resource(Group, "/group/<int:id>")
+api.add_resource(GroupCreate, "/group")
 api.add_resource(GroupList, "/groups")
 # api.add_resource(UserRegister, "/register")
 # api.add_resource(User, "/user/<int:user_id>")
