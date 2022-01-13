@@ -19,8 +19,7 @@ class PetModel(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False)
 
     sessions = db.relationship('SessionModel', backref='pet', lazy=True)
-    disabilities = db.relationship('DisabilityModel', backref='pet', lazy=True)
-    skips = db.relationship('SkipModel', backref='pet', lazy=True)
+    claws = db.relationship('ClawModel', backref='pet', lazy=True)
 
     def __init__(self, user_id: int, name: str, type: str, breed: str, imageUri: str, disabled: bool, created_at: str, updated_at: str):
         self.user_id = user_id
