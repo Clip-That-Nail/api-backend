@@ -9,7 +9,7 @@ from db import db
 # from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.group import Group, GroupList
 
-# TODO: models - user, pet, claw, session
+
 # TODO: resources - user (UserRegister, UserLogin, User, TokenRefresh, UserLogout, ForgotPassword, UpdatePassword),
 # TODO: resources - pet (Pet, PetList),
 # TODO: resources - claw (Claw), <= do I need to do that? I will probably just need a session endpoints
@@ -18,9 +18,7 @@ from resources.group import Group, GroupList
 sys.path.insert(0, os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config.from_pyfile("./config.py")
 app.secret_key = "jose"  # could do app.config['JWT_SECRET_KEY'] if we prefer
 api = Api(app)
 
@@ -36,7 +34,7 @@ jwt = JWTManager(app)
 
 
 @app.route('/')
-def api():
+def api_homepage():
     return {
         "status": "success",
         "message": "Test API",
