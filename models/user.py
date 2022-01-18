@@ -43,8 +43,8 @@ class UserModel(db.Model):
             "password": self.password,
             "must_change_password": self.must_change_password,
             "status": self.status,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "created_at": self.created_at.__str__(),
+            "updated_at": self.updated_at.__str__()
         }
 
     @classmethod

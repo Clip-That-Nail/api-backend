@@ -21,7 +21,7 @@ class GroupModel(db.Model):
         self.updated_at = updated_at
 
     def json(self) -> GroupJSON:
-        return {"id": self.id, "name": self.name, "created_at": self.created_at, "updated_at": self.updated_at}
+        return {"id": self.id, "name": self.name, "created_at": self.created_at.__str__(), "updated_at": self.updated_at.__str__()}
 
     @classmethod
     def find_by_name(cls, name: str) -> "GroupModel":

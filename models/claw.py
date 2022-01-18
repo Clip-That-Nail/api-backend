@@ -37,8 +37,8 @@ class ClawModel(db.Model):
             "disabled": self.disabled,
             "skipped": self.skipped,
             "skip_length": self.skip_length,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "created_at": self.created_at.__str__(),
+            "updated_at": self.updated_at.__str__(),
         }
 
     @classmethod

@@ -38,8 +38,8 @@ class SessionDataModel(db.Model):
             "status": self.status,
             "outcome": self.outcome,
             "behaviour": self.behaviour,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "created_at": self.created_at.__str__(),
+            "updated_at": self.updated_at.__str__(),
         }
 
     @classmethod
