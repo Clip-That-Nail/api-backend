@@ -25,7 +25,7 @@ class Group(Resource):
         return {"message": GROUP_NOT_FOUND}, 404
 
     @classmethod
-    # @jwt_required()
+    # @jwt_required(refresh=True)
     def delete(cls, id: int):
         group = GroupModel.find_by_id(id)
         if group:
@@ -34,7 +34,7 @@ class Group(Resource):
         return {"message": GROUP_NOT_FOUND}, 404
 
     @classmethod
-    # @jwt_required()
+    # @jwt_required(refresh=True)
     def put(cls, id: int):
         data = _group_parser.parse_args()
 
