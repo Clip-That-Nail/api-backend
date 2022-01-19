@@ -6,8 +6,9 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 from db import db
+from blocklist import BLOCKLIST
 # from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
-from resources.user import User
+from resources.user import User, UserRegister, UserLogin
 from resources.group import Group, GroupCreate, GroupList
 from models.pet import PetModel
 from models.claw import ClawModel
@@ -38,6 +39,12 @@ def create_tables():
 jwt = JWTManager(app)
 
 
+# This method will check if a token is blocklisted, and will be called automatically when blocklist is enabled
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blocklist(jwt_header, jwt_payload):
+    return jwt_payload["jti"] in BLOCKLIST
+
+
 @app.route('/')
 def api_homepage():
     return {
@@ -49,10 +56,10 @@ def api_homepage():
 api.add_resource(Group, "/group/<int:id>")
 api.add_resource(GroupCreate, "/group")
 api.add_resource(GroupList, "/groups")
-# api.add_resource(UserRegister, "/register")
+api.add_resource(UserRegister, "/register")
 api.add_resource(User, "/user/<int:user_id>")
-# api.add_resource(UserLogin, "/login")
-# api.add_resource(TokenRefresh, "/refresh")
+api.add_resource(UserLogin, "/login")
+api.add_resource(TokenRefresh, "/refresh")
 # api.add_resource(UserLogout, "/logout")
 
 application = app
