@@ -7,8 +7,7 @@ from flask_jwt_extended import JWTManager
 
 from db import db
 from blocklist import BLOCKLIST
-# from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
-from resources.user import User, UserRegister, UserLogin
+from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.group import Group, GroupCreate, GroupList
 from models.pet import PetModel
 from models.claw import ClawModel
@@ -60,6 +59,6 @@ api.add_resource(UserRegister, "/register")
 api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(UserLogin, "/login")
 api.add_resource(TokenRefresh, "/refresh")
-# api.add_resource(UserLogout, "/logout")
+api.add_resource(UserLogout, "/logout")
 
 application = app
