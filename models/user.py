@@ -1,7 +1,7 @@
 from typing import Dict, Union
 
 from db import db
-from passenger_wsgi import bcrypt
+from werkzeug.security import generate_password_hash
 
 UserJSON = Dict[str, Union[int, str, bool]]
 
@@ -28,7 +28,7 @@ class UserModel(db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = generate_password_hash(password)
         self.must_change_password = must_change_password
         self.status = status
         self.created_at = created_at
