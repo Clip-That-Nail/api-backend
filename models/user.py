@@ -41,7 +41,6 @@ class UserModel(db.Model):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            "password": self.password,
             "must_change_password": self.must_change_password,
             "status": self.status,
             "created_at": self.created_at.__str__(),
