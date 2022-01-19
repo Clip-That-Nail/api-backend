@@ -4,7 +4,6 @@ import sys
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-from flask_bcrypt import Bcrypt
 
 from db import db
 # from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
@@ -27,7 +26,6 @@ app = Flask(__name__)
 app.config.from_pyfile("./config.py")
 app.secret_key = "jose"  # could do app.config['JWT_SECRET_KEY'] if we prefer
 api = Api(app)
-bcrypt = Bcrypt(app)
 
 db.init_app(app)
 
