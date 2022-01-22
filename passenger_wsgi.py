@@ -9,7 +9,7 @@ from db import db
 from blocklist import BLOCKLIST
 from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.group import Group, GroupCreate, GroupList
-from models.pet import PetModel
+from resources.pet import Pet, PetCreate, PetList
 from models.claw import ClawModel
 from models.session import SessionModel
 from models.session_data import SessionDataModel
@@ -52,13 +52,16 @@ def api_homepage():
     }
 
 
-api.add_resource(Group, "/group/<int:id>")
-api.add_resource(GroupCreate, "/group")
-api.add_resource(GroupList, "/groups")
 api.add_resource(UserRegister, "/register")
 api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(UserLogin, "/login")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(UserLogout, "/logout")
+api.add_resource(Group, "/group/<int:id>")
+api.add_resource(GroupCreate, "/group")
+api.add_resource(GroupList, "/groups")
+api.add_resource(Pet, "/pet/<int:id>")
+api.add_resource(PetCreate, "/pet")
+api.add_resource(PetList, "/pets")
 
 application = app
