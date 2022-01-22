@@ -60,6 +60,10 @@ class PetModel(db.Model):
     def find_all_by_user_id(cls, user_id: int) -> List["PetModel"]:
         return cls.query.filter_by(user_id=user_id).all()
 
+    @classmethod
+    def find_one_by_user_id(cls, _id: int, user_id: int) -> "PetModel":
+        return cls.query.filter_by(id=_id, user_id=user_id).first()
+
     def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()
