@@ -10,7 +10,7 @@ from blocklist import BLOCKLIST
 from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.group import Group, GroupCreate, GroupList
 from resources.pet import Pet, PetCreate, PetList
-from models.claw import ClawModel
+from resources.claw import ClawList
 from models.session import SessionModel
 from models.session_data import SessionDataModel
 
@@ -63,5 +63,6 @@ api.add_resource(GroupList, "/groups")
 api.add_resource(Pet, "/pet/<int:id>")
 api.add_resource(PetCreate, "/pet")
 api.add_resource(PetList, "/pets")
+api.add_resource(ClawList, "/claws/<int:pet_id>")
 
 application = app
