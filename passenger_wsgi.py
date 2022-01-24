@@ -6,6 +6,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 from db import db
+from ma import ma
 from blocklist import BLOCKLIST
 from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.group import Group, GroupCreate, GroupList
@@ -28,6 +29,7 @@ app.secret_key = "jose"  # could do app.config['JWT_SECRET_KEY'] if we prefer
 api = Api(app)
 
 db.init_app(app)
+ma.init_app(app)
 
 
 @app.before_first_request

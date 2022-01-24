@@ -10,6 +10,9 @@ flask-restful = "*"
 flask-jwt-extended = "*"
 python-dotenv = "*"
 mysqlclient = "*"
+marshmallow = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
 
 [dev-packages]
 
