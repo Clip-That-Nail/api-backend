@@ -11,5 +11,5 @@ class GroupSchema(ma.SQLAlchemyAutoSchema):
         model = GroupModel
         load_instance = True
         # load_only = ()
-        dump_only = ("id", "created_at", "updated_at",)
+        dump_only = ("id",)
         include_fk = True
