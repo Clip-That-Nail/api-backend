@@ -1,8 +1,6 @@
-from typing import Dict, List, Union
+from typing import List
 
 from db import db
-
-ClawJSON = Dict[str, Union[int, str, bool]]
 
 
 class ClawModel(db.Model):
@@ -17,29 +15,6 @@ class ClawModel(db.Model):
     skip_length = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
-
-    def __init__(self, pet_id: int, name: str, paw: str, disabled: bool, skipped: bool, skip_length: int, created_at: str, updated_at: str):
-        self.pet_id = pet_id
-        self.name = name
-        self.paw = paw
-        self.disabled = disabled
-        self.skipped = skipped
-        self.skip_length = skip_length
-        self.created_at = created_at
-        self.updated_at = updated_at
-
-    def json(self) -> ClawJSON:
-        return {
-            "id": self.id,
-            "pet_id": self.pet_id,
-            "name": self.name,
-            "paw": self.paw,
-            "disabled": self.disabled,
-            "skipped": self.skipped,
-            "skip_length": self.skip_length,
-            "created_at": self.created_at.__str__(),
-            "updated_at": self.updated_at.__str__(),
-        }
 
     @classmethod
     def find_by_id(cls, _id: int) -> "ClawModel":
