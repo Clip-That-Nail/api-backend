@@ -10,6 +10,4 @@ class GroupSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = GroupModel
         load_instance = True
-        # load_only = ()
         dump_only = ("id",)
-        include_fk = True
