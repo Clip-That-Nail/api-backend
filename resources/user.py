@@ -35,13 +35,14 @@ class UserRegister(Resource):
         user_json["password"] = generate_password_hash(user_json["password"])
         user_json["must_change_password"] = False
         user_json["status"] = 0
-        user_json["created_at"] = datetime.now()
-        user_json["updated_at"] = datetime.now()
+        user_json["created_at"] = str(datetime.utcnow())
+        user_json["updated_at"] = str(datetime.utcnow())
         user = user_schema.load(user_json)
 
         try:
             user.save_to_db()
-        except:
+        except Exception as err:
+            print(str(err)) # TODO: use some kind of logger?
             return {"message": ERROR_REGISTERING}, 500
 
         return {"message": CREATED_SUCCESSFULLY}, 201

@@ -41,11 +41,11 @@ class Group(Resource):
 
         if group:
             group.name = group_json["name"]
-            group.updated_at = datetime.now()
+            group.updated_at = str(datetime.utcnow())
             process = "updating"
         else:
-            group_json["created_at"] = datetime.now()
-            group_json["updated_at"] = datetime.now()
+            group_json["created_at"] = str(datetime.utcnow())
+            group_json["updated_at"] = str(datetime.utcnow())
             group = group_schema.load(group_json)
             process = "inserting"
 
@@ -67,8 +67,8 @@ class GroupCreate(Resource):
         if GroupModel.find_by_name(group_json["name"]):
             return {"message": NAME_ALREADY_EXISTS.format(group_json["name"])}, 400
 
-        group_json["created_at"] = datetime.now()
-        group_json["updated_at"] = datetime.now()
+        group_json["created_at"] = str(datetime.utcnow())
+        group_json["updated_at"] = str(datetime.utcnow())
         group = group_schema.load(group_json)
 
         try:
