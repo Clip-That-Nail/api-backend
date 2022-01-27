@@ -1,16 +1,12 @@
-from typing import Dict, Union
-
 from db import db
-from werkzeug.security import generate_password_hash
-
-UserJSON = Dict[str, Union[int, str, bool]]
 
 
 class UserModel(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey(
+        'groups.id'), nullable=False)
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -22,30 +18,6 @@ class UserModel(db.Model):
 
     pets = db.relationship('PetModel', backref='user', lazy=True)
     sessions = db.relationship('SessionModel', backref='user', lazy=True)
-
-    def __init__(self, group_id: int, first_name: str, last_name: str, email: str, password: str, must_change_password: bool, status: int, created_at: str, updated_at: str):
-        self.group_id = group_id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.password = generate_password_hash(password)
-        self.must_change_password = must_change_password
-        self.status = status
-        self.created_at = created_at
-        self.updated_at = updated_at
-
-    def json(self) -> UserJSON:
-        return {
-            "id": self.id,
-            "group_id": self.group_id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "email": self.email,
-            "must_change_password": self.must_change_password,
-            "status": self.status,
-            "created_at": self.created_at.__str__(),
-            "updated_at": self.updated_at.__str__()
-        }
 
     @classmethod
     def find_by_email(cls, email: str) -> "UserModel":
