@@ -7,6 +7,6 @@ class SessionDataSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = SessionDataModel
         load_instance = True
-        load_only = ("session",)
-        dump_only = ("id", "created_at", "updated_at",)
+        load_only = ()
+        dump_only = ("id", "session",)
         include_fk = True

@@ -14,6 +14,6 @@ class PetSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = PetModel
         load_instance = True
-        load_only = ("user",)
-        dump_only = ("id", "sessions", "claws",)
+        load_only = ()
+        dump_only = ("id", "user", "sessions",)
         include_fk = True

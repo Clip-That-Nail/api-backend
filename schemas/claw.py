@@ -7,6 +7,6 @@ class ClawSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ClawModel
         load_instance = True
-        load_only = ("pet",)
-        dump_only = ("id", "created_at", "updated_at",)
-        include_fk = True
+        load_only = ()
+        dump_only = ("id", "pet",)
+        # include_fk = True
