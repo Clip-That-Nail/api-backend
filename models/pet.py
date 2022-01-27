@@ -1,8 +1,6 @@
-from typing import Dict, List, Union
+from typing import List
 
 from db import db
-
-PetJSON = Dict[str, Union[int, str, bool]]
 
 
 class PetModel(db.Model):
@@ -20,29 +18,6 @@ class PetModel(db.Model):
 
     sessions = db.relationship('SessionModel', backref='pet', lazy=True)
     claws = db.relationship('ClawModel', backref='pet', lazy=True)
-
-    def __init__(self, user_id: int, name: str, type: str, breed: str, imageUri: str, disabled: bool, created_at: str, updated_at: str):
-        self.user_id = user_id
-        self.name = name
-        self.type = type
-        self.breed = breed
-        self.imageUri = imageUri
-        self.disabled = disabled
-        self.created_at = created_at
-        self.updated_at = updated_at
-
-    def json(self) -> PetJSON:
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "name": self.name,
-            "type": self.type,
-            "breed": self.breed,
-            "imageUri": self.imageUri,
-            "disabled": self.disabled,
-            "created_at": self.created_at.__str__(),
-            "updated_at": self.updated_at.__str__()
-        }
 
     @classmethod
     def find_by_name(cls, name: str) -> "PetModel":
