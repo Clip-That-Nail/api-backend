@@ -1,8 +1,6 @@
-from typing import Dict, List, Union
+from typing import List
 
 from db import db
-
-SessionJSON = Dict[str, Union[int, str]]
 
 
 class SessionModel(db.Model):
@@ -17,23 +15,6 @@ class SessionModel(db.Model):
 
     session_data = db.relationship(
         'SessionDataModel', backref='session', lazy=True)
-
-    def __init__(self, user_id: int, pet_id: int, status: str, created_at: str, updated_at: str):
-        self.user_id = user_id
-        self.pet_id = pet_id
-        self.status = status
-        self.created_at = created_at
-        self.updated_at = updated_at
-
-    def json(self) -> SessionJSON:
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "pet_id": self.pet_id,
-            "status": self.status,
-            "created_at": self.created_at.__str__(),
-            "updated_at": self.updated_at.__str__(),
-        }
 
     @classmethod
     def find_by_id(cls, _id: int) -> "SessionModel":
