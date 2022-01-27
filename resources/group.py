@@ -1,18 +1,17 @@
-from flask_restful import Resource, reqparse
+from flask import request
+from flask_restful import Resource
 from flask_jwt_extended import jwt_required
 from datetime import datetime
 from models.group import GroupModel
+from schemas.group import GroupSchema
 
-BLANK_ERROR = "'{}' cannot be blank."
 NAME_ALREADY_EXISTS = "A group with name '{}' already exists."
-ERROR_INSERTING = "An error occurred while inserting a new group."
+ERROR_INSERTING = "An error occurred while {} a new group."
 GROUP_NOT_FOUND = "Group not found."
 GROUP_DELETED = "Group deleted."
 
-_group_parser = reqparse.RequestParser()
-_group_parser.add_argument(
-    "name", type=str, required=True, help=BLANK_ERROR.format("name"), location='json'
-)
+group_schema = GroupSchema()
+group_list_schema = GroupSchema(many=True)
 
 
 class Group(Resource):
@@ -21,7 +20,7 @@ class Group(Resource):
     def get(cls, id: int):
         group = GroupModel.find_by_id(id)
         if group:
-            return group.json(), 200
+            return group_schema.dump(group), 200
         return {"message": GROUP_NOT_FOUND}, 404
 
     @classmethod
@@ -36,19 +35,26 @@ class Group(Resource):
     @classmethod
     @jwt_required(refresh=True)
     def put(cls, id: int):
-        data = _group_parser.parse_args()
-
+        group_json = request.get_json()
         group = GroupModel.find_by_id(id)
+        process = ""
 
         if group:
-            group.name = data["name"]
+            group.name = group_json["name"]
             group.updated_at = datetime.now()
+            process = "updating"
         else:
-            group = GroupModel(data["name"], datetime.now(), datetime.now())
+            group_json["created_at"] = datetime.now()
+            group_json["updated_at"] = datetime.now()
+            group = group_schema.load(group_json)
+            process = "inserting"
 
-        group.save_to_db()
+        try:
+            group.save_to_db()
+        except:
+            return {"message": ERROR_INSERTING.format(process)}, 500
 
-        return group.json(), 200
+        return group_schema.dump(group), 200
 
 
 class GroupCreate(Resource):
@@ -56,23 +62,25 @@ class GroupCreate(Resource):
     @classmethod
     @jwt_required(fresh=True)
     def post(cls):
-        data = _group_parser.parse_args()
+        group_json = request.get_json()
 
-        if GroupModel.find_by_name(data["name"]):
-            return {"message": NAME_ALREADY_EXISTS.format(data["name"])}, 400
+        if GroupModel.find_by_name(group_json["name"]):
+            return {"message": NAME_ALREADY_EXISTS.format(group_json["name"])}, 400
 
-        group = GroupModel(data["name"], datetime.now(), datetime.now())
+        group_json["created_at"] = datetime.now()
+        group_json["updated_at"] = datetime.now()
+        group = group_schema.load(group_json)
 
         try:
             group.save_to_db()
         except:
-            return {"message": ERROR_INSERTING}, 500
+            return {"message": ERROR_INSERTING.format("inserting")}, 500
 
-        return group.json(), 201
+        return group_schema.dump(group), 201
 
 
 class GroupList(Resource):
     @classmethod
     @jwt_required()
     def get(cls):
-        return {"groups": [group.json() for group in GroupModel.find_all()]}, 200
+        return {"groups": group_list_schema.dump(GroupModel.find_all())}, 200
