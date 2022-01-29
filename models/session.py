@@ -21,6 +21,14 @@ class SessionModel(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
+    def find_one_by_user_id(cls, _id: int, user_id: int) -> "SessionModel":
+        return cls.query.filter_by(id=_id, user_id=user_id).first()
+
+    @classmethod
+    def find_one_by_pet_id(cls, _id: int, pet_id: int) -> "SessionModel":
+        return cls.query.filter_by(id=_id, pet_id=pet_id).first()
+
+    @classmethod
     def find_all(cls) -> List["SessionModel"]:
         return cls.query.all()
 
