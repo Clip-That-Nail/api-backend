@@ -11,7 +11,7 @@ class PetModel(db.Model):
     name = db.Column(db.String(80), nullable=False)
     type = db.Column(db.String(80), nullable=False)
     breed = db.Column(db.String(80), nullable=False)
-    imageUri = db.Column(db.String(80), nullable=False)
+    image_uri = db.Column(db.String(80), nullable=False)
     disabled = db.Column(db.Boolean, default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)

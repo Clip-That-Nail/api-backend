@@ -27,7 +27,7 @@ PET_DELETED = "Pet deleted."
 #     "breed", type=str, required=True, help=BLANK_ERROR.format("Pet breed"), location='json'
 # )
 # _pet_parser.add_argument(
-#     "imageUri", type=str, required=True, help=BLANK_ERROR.format("Pet imageUri"), location='json'
+#     "image_uri", type=str, required=True, help=BLANK_ERROR.format("Pet image_uri"), location='json'
 # )
 # _pet_parser.add_argument(
 #     "disabled", type=bool, required=True, help=BLANK_ERROR.format("Disabled value"), location='json'
@@ -61,13 +61,15 @@ class Pet(Resource):
         return {"message": PET_NOT_FOUND}, 404
 
     @classmethod
-    @jwt_required(refresh=True)
+    @jwt_required(fresh=True)
     def delete(cls, id: int):
         user_id = get_jwt_identity()
 
         pet = PetModel.find_one_by_user_id(id, user_id)
 
-        # TODO: find all claws connected to that pet and remove them too
+        claws = ClawModel.find_all_by_pet_id(id)
+        for claw in claws:
+            claw.delete_from_db()
 
         if pet:
             pet.delete_from_db()
@@ -75,7 +77,7 @@ class Pet(Resource):
         return {"message": PET_NOT_FOUND}, 404
 
     @classmethod
-    @jwt_required(refresh=True)
+    @jwt_required(fresh=True)
     def put(cls, id: int):
         pet_json = request.get_json()
         user_id = get_jwt_identity()
@@ -87,16 +89,38 @@ class Pet(Resource):
             pet.name = pet_json["name"]
             pet.type = pet_json["type"]
             pet.breed = pet_json["breed"]
-            pet.imageUri = pet_json["imageUri"]
-            pet.disabled = pet_json["disabled"]
-            # TODO: update claws data
+            pet.image_uri = pet_json["image_uri"]
+            pet.disabled = bool(pet_json["disabled"])
             pet.updated_at = str(datetime.utcnow())
+
+            for claw_data in pet_json["claws"]:
+                claw = ClawModel.find_one_by_pet_id_and_name(id, claw_data["name"], claw_data["paw"])
+                if claw:
+                    claw.name = claw_data["name"]
+                    claw.paw = claw_data["paw"]
+                    claw.disabled = bool(claw_data["disabled"])
+                    claw.skipped = bool(claw_data["skipped"])
+                    claw.skip_length = int(claw_data["skip_length"])
+                    claw.updated_at = str(datetime.utcnow())
+                else:
+                    claw_data["pet_id"] = id
+                    claw_data["created_at"] = str(datetime.utcnow())
+                    claw_data["updated_at"] = str(datetime.utcnow())
+                    claw = claw_schema.load(claw_data)
+                
+                claw.save_to_db()
+
             process = "updating"
         else:
             pet_json["user_id"] = user_id
             pet_json["created_at"] = str(datetime.utcnow())
             pet_json["updated_at"] = str(datetime.utcnow())
-            # TODO: insert claws data
+
+            for claw in pet_json["claws"]:
+                claw["pet_id"] = id
+                claw["created_at"] = str(datetime.utcnow())
+                claw["updated_at"] = str(datetime.utcnow())
+
             pet = pet_schema.load(pet_json)
             process = "inserting"
 
