@@ -22,6 +22,10 @@ class SessionDataModel(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
+    def find_one_by_session_id_and_claw(cls, session_id: int, paw: str, claw: str) -> "SessionDataModel":
+        return cls.query.filter_by(session_id=session_id, paw=paw, claw=claw).first()
+
+    @classmethod
     def find_all(cls) -> List["SessionDataModel"]:
         return cls.query.all()
 
