@@ -15,10 +15,15 @@ class ClawModel(db.Model):
     skip_length = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
+    # db.UniqueConstraint
 
     @classmethod
     def find_by_id(cls, _id: int) -> "ClawModel":
         return cls.query.filter_by(id=_id).first()
+        
+    @classmethod
+    def find_one_by_pet_id_and_name(cls, pet_id: int, name: str, paw: str) -> "ClawModel":
+        return cls.query.filter_by(pet_id=pet_id, name=name, paw=paw).first()
 
     @classmethod
     def find_all(cls) -> List["ClawModel"]:
