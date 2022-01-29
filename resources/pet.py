@@ -16,33 +16,6 @@ ERROR_INSERTING = "An error occurred while {} a new pet."
 PET_NOT_FOUND = "Pet not found."
 PET_DELETED = "Pet deleted."
 
-# _pet_parser = reqparse.RequestParser()
-# _pet_parser.add_argument(
-#     "name", type=str, required=True, help=BLANK_ERROR.format("Pet name"), location='json'
-# )
-# _pet_parser.add_argument(
-#     "type", type=str, required=True, help=BLANK_ERROR.format("Pet type"), location='json'
-# )
-# _pet_parser.add_argument(
-#     "breed", type=str, required=True, help=BLANK_ERROR.format("Pet breed"), location='json'
-# )
-# _pet_parser.add_argument(
-#     "image_uri", type=str, required=True, help=BLANK_ERROR.format("Pet image_uri"), location='json'
-# )
-# _pet_parser.add_argument(
-#     "disabled", type=bool, required=True, help=BLANK_ERROR.format("Disabled value"), location='json'
-# )
-# _pet_parser.add_argument(
-#     "claws", type=list, required=True, help=BLANK_ERROR.format("Claws list"), location='json'
-# )
-
-# _claw_parser = reqparse.RequestParser()
-# _claw_parser.add_argument('name', type=str, required=True, help=BLANK_ERROR.format("Claw name"), location=('message'))
-# _claw_parser.add_argument('paw', type=str, required=True, help=BLANK_ERROR.format("Claw paw name"), location=('message'))
-# _claw_parser.add_argument('disabled', type=bool, required=True, help=BLANK_ERROR.format("Claw disabled value"), location=('message'))
-# _claw_parser.add_argument('skipped', type=bool, required=True, help=BLANK_ERROR.format("Claw skipped value"), location=('message'))
-# _claw_parser.add_argument('skip_length', type=int, required=True, help=BLANK_ERROR.format("Claw skip_length value"), location=('message'))
-
 pet_schema = PetSchema()
 pet_list_schema = PetSchema(many=True)
 claw_schema = ClawSchema()
@@ -94,7 +67,8 @@ class Pet(Resource):
             pet.updated_at = str(datetime.utcnow())
 
             for claw_data in pet_json["claws"]:
-                claw = ClawModel.find_one_by_pet_id_and_name(id, claw_data["name"], claw_data["paw"])
+                claw = ClawModel.find_one_by_pet_id_and_name(
+                    id, claw_data["name"], claw_data["paw"])
                 if claw:
                     claw.name = claw_data["name"]
                     claw.paw = claw_data["paw"]
@@ -107,7 +81,7 @@ class Pet(Resource):
                     claw_data["created_at"] = str(datetime.utcnow())
                     claw_data["updated_at"] = str(datetime.utcnow())
                     claw = claw_schema.load(claw_data)
-                
+
                 claw.save_to_db()
 
             process = "updating"
