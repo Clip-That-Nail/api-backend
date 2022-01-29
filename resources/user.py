@@ -57,7 +57,7 @@ class User(Resource):
         return user_schema.dump(user), 200
 
     @classmethod
-    @jwt_required(refresh=True)
+    @jwt_required(fresh=True)
     def delete(cls, user_id: int):
         # TODO: check if user using it is an Admin
         # user_id = get_jwt_identity()
