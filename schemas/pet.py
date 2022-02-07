@@ -16,4 +16,4 @@ class PetSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         load_only = ()
         dump_only = ("id", "user", "sessions",)
-        include_fk = True
+        include_fk = True # TODO: probably I need to remove that and use instead just ma.Nested with db.ForeignKey in the model

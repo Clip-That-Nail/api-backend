@@ -77,7 +77,7 @@ class Pet(Resource):
                     claw.skip_length = int(claw_data["skip_length"])
                     claw.updated_at = str(datetime.utcnow())
                 else:
-                    claw_data["pet_id"] = id
+                    # claw_data["pet_id"] = id   # TODO: problem with foreign keys included when creating or updating pet with claws data... when creating I don't have pet_id, but I have it and I need to have it (probably) when updating.  I think I need to remove include_fk in schemas and just use db.ForeignKey (that will probably do the trick?) or other way - use include_fk instead db.ForeignKey ???
                     claw_data["created_at"] = str(datetime.utcnow())
                     claw_data["updated_at"] = str(datetime.utcnow())
                     claw = claw_schema.load(claw_data)
@@ -91,7 +91,6 @@ class Pet(Resource):
             pet_json["updated_at"] = str(datetime.utcnow())
 
             for claw in pet_json["claws"]:
-                claw["pet_id"] = id
                 claw["created_at"] = str(datetime.utcnow())
                 claw["updated_at"] = str(datetime.utcnow())
 
